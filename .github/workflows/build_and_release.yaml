@@ -1,4 +1,4 @@
-name: Build and Release
+name: Build and Release countingbook app
 
 on:
     push:
@@ -9,5 +9,13 @@ jobs:
     build:
         runs-on: ubuntu-latest
         steps:
-        - name: Echo
-          run: echo "${GITHUB_REF}"    
+        - name: Echo some variables
+          run: echo "${GITHUB_REF} ${GITHUB_OUTPUT} ${{ github.ref_name }}"
+        - name: Set up Node.js environment
+          uses: actions/setup-node@v4
+          with:
+              node-version: '22'
+        - run: echo "before" && ls -la
+        - name: Checkout code
+          uses: actions/checkout@v5
+        - run: echo "after" && ls -la
