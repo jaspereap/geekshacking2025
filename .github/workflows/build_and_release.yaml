@@ -19,3 +19,16 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v5
         - run: echo "after" && ls -la
+        - name: Install angular cli
+          run: npm install -g @angular/cli && npm ci && echo "Installed angular cli and dependencies"
+        - name: Build the app
+          run: ng build && echo "App built"
+        - run: ls -l dist/countingbook/browser
+        - name: deploy to netlify
+          uses: nwtgck/actions-netlify@v3.0
+          with:
+            publish-dir: ./dist/countingbook/browser
+            production-deploy: true
+          env:
+            NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+            NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
